@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Offline JSON Search App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f4f8;
+      padding: 20px;
+      max-width: 700px;
+      margin: auto;
+    }
+    h1 {
+      color: #333;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0 20px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    .result {
+      background: #fff;
+      padding: 15px;
+      margin-bottom: 10px;
+      border-left: 4px solid #007BFF;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .result h3 {
+      margin: 0;
+    }
+    .result p {
+      margin: 5px 0 0;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Search JSON Data (Offline)</h1>
+  <input type="text" id="searchBox" placeholder="Type to search...">
+
+  <div id="results"></div>
+
+  <script>
+    // 📦 JSON data stored offline inside JavaScript
+    const data = [
+      {
+        name: "Banana",
+        category: "Fruit",
+        description: "Rich in potassium and good for digestion."
+      },
+      {
+        name: "Beans",
+        category: "Vegetable",
+        description: "High in protein and fiber."
+      },
+      {
+        name: "Carrot",
+        category: "Root vegetable",
+        description: "Rich in Vitamin A and improves vision."
+      },
+      {
+        name: "Milk",
+        category: "Dairy",
+        description: "Great source of calcium for bones."
+      },
+      {
+        name: "Maize",
+        category: "Grain",
+        description: "Staple food in many regions, good source of carbs."
+      }
+    ];
+
+    const searchBox = document.getElementById("searchBox");
+    const resultsDiv = document.getElementById("results");
+
+    // 🔍 Filter data based on user input
+    searchBox.addEventListener("input", () => {
+      const searchTerm = searchBox.value.toLowerCase();
+      const filtered = data.filter(item =>
+        item.name.toLowerCase().includes(searchTerm) ||
+        item.category.toLowerCase().includes(searchTerm) ||
+        item.description.toLowerCase().includes(searchTerm)
+      );
+
+      displayResults(filtered);
+    });
+
+    // 🖼️ Display results
+    function displayResults(items) {
+      resultsDiv.innerHTML = "";
+      if (items.length === 0) {
+        resultsDiv.innerHTML = "<p>No results found.</p>";
+        return;
+      }
+
+      items.forEach(item => {
+        const div = document.createElement("div");
+        div.className = "result";
+        div.innerHTML = `<h3>${item.name}</h3><p><strong>Category:</strong> ${item.category}</p><p>${item.description}</p>`;
+        resultsDiv.appendChild(div);
+      });
+    }
+
+    // Show all on load
+    displayResults(data);
+  </script>
+
+</body>
+</html>
